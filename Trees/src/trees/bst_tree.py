@@ -23,7 +23,7 @@ class BST(Generic[T, K]):
         It serves the same role as the key function in the min, max, and sorted builtin
         functions
         """
-        self.root = ...
+        self.root = None
         ...
 
     @property
@@ -32,7 +32,10 @@ class BST(Generic[T, K]):
         Compute the height of the tree. If the tree is empty its height is -1
         :return:
         """
-        ...
+        if self.root is None:
+            return -1
+        else:
+            ...
 
     def __len__(self) -> int:
         """
@@ -46,7 +49,21 @@ class BST(Generic[T, K]):
         :param value:
         :return:
         """
-        ...
+        if self.root is None:
+            self.root = BSTNode(value)
+        else:
+            self.insert_value(self, value)
+
+    def insert_value(self, value: T, root: BSTNode[T]) -> BSTNode[T]:
+        if root is None: # This is where we want to add the node
+            return BSTNode(value)
+        elif value < self.root.value:  # add left
+            root.left = self.insert_value(value, root.left)
+            root.left.parent = root
+        else:  # add Right
+            root.right = self.insert_value(value, root.right)
+            root.right.parent = root
+        return root
 
     def get_node(self, value: K) -> BSTNode[T]:
         """
@@ -55,7 +72,6 @@ class BST(Generic[T, K]):
         :raises MissingValueError if there is no node with the specified value
         :return:
         """
-        ...
 
     def get_max_node(self) -> BSTNode[T]:
         """
