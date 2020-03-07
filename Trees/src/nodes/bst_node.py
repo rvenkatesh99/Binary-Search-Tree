@@ -17,9 +17,9 @@ class BSTNode(Generic[T]):
         :param children: optional children
         :param parent: an optional parent node
         """
-        if len(self.children) > 1:
-            self.left = self.children[0]
-            self.right = self.children[1]
+        self.children = []
+        self.left = None
+        self.right = None
 
     def __iter__(self) -> Iterable["BSTNode[T]"]:
         """
