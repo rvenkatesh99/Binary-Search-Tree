@@ -52,16 +52,16 @@ class BST(Generic[T, K]):
         if self.root is None:
             self.root = BSTNode(value)
         else:
-            self.insert_value(self, value)
+            self._insert_value(self, value)
 
-    def insert_value(self, value: T, root: BSTNode[T]) -> BSTNode[T]:
+    def _insert_value(self, value: T, root: BSTNode[T]) -> BSTNode[T]:
         if root is None: # This is where we want to add the node
             return BSTNode(value)
         elif value < self.root.value:  # add left
-            root.left = self.insert_value(value, root.left)
+            root.left = self._insert_value(value, root.left)
             root.left.parent = root
         else:  # add Right
-            root.right = self.insert_value(value, root.right)
+            root.right = self._insert_value(value, root.right)
             root.right.parent = root
         return root
 
@@ -72,7 +72,17 @@ class BST(Generic[T, K]):
         :raises MissingValueError if there is no node with the specified value
         :return:
         """
-        raise MissingValueError(f'There is no node with value {value}')
+        return self._bst_get_node(value, self.root)
+
+    def _bst_get_node(self, value: T, root: BSTNode[T]) -> BSTNode[T]:
+        if root is None:  # empty node
+            raise MissingValueError(f'There is no node with value {value}')
+        elif value == root.value:  # match
+            return root
+        elif value < root.value:  # search left
+            return self._bst_get_node(value, root.left)
+        else:  # search right
+            return self._bst_get_node(value, root.right)
 
     def get_max_node(self) -> BSTNode[T]:
         """
@@ -88,6 +98,13 @@ class BST(Generic[T, K]):
         :return:
         """
         ...
+
+    def _get_min_value (self, values, key=lambda x: x):
+        self.curr_value = values[0]
+        for value in values:
+            if key(value) < key(self.curr_value):  # compare what key returns instead of values directly
+                cur_value = value
+        return self.curr_value
 
     def remove_value(self, value: T) -> None:
         """

@@ -18,6 +18,7 @@ class BSTNode(Generic[T]):
         :param parent: an optional parent node
         """
         self.children = []
+        self.value = None
         self.left = None
         self.right = None
 
@@ -26,7 +27,6 @@ class BSTNode(Generic[T]):
         Iterate over the children of this node.
         :return:
         """
-
         if self.left is not None:
             yield self.left
         if self.right is not None:
